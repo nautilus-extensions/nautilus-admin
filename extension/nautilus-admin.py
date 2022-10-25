@@ -1,6 +1,6 @@
-# Nautilus Hide - Extension for Nautilus to hide files without renaming them
-# Copyright (C) 2015 Bruno Nova
-#               2016 Steeven Lopes <steevenlopes@outlook.com>
+# Nautilus Admin - Extension for Nautilus to do administrative operations
+# Copyright (C) 2015-2017 Bruno Nova
+#               2016 frmdstryr <frmdstryr@gmail.com>
 #               2022 0xMRTT
 #
 # This program is free software: you can redistribute it and/or modify
@@ -38,21 +38,22 @@ import locale
 import gettext
 ROOT_UID = 0
 NAUTILUS_PATH="@NAUTILUS_PATH@"
+EDITOR_PATH="@EDITOR_PATH@"
 
 LOCALE_DIR = '@LOCALE_DIR@'
 
-gettext.install('nautilus-hide', LOCALE_DIR)
+gettext.install('nautilus-admin', LOCALE_DIR)
 
-locale.bindtextdomain('nautilus-hide', LOCALE_DIR)
-locale.textdomain('nautilus-hide')
+locale.bindtextdomain('nautilus-admin', LOCALE_DIR)
+locale.textdomain('nautilus-admin')
 
 _ = gettext.gettext
 n_ = gettext.ngettext
 
 if using_nautilus_43_onwards:
-    class NautilusHide(GObject.GObject, Nautilus.MenuProvider):
+    class NautilusAdmin(GObject.GObject, Nautilus.MenuProvider):
         def __init__(self):
-            print("Nautilus Hide extension initialized")
+            print("Nautilus Admin extension initialized")
             self.is_selected = False
 
         def get_file_items(self, window, files):
@@ -112,12 +113,27 @@ if using_nautilus_43_onwards:
 
             return items
 
+<<<<<<< HEAD:extension/nautilus-hide.py
         def _create_unhide_item(self, files, hidden_path, hidden):
             """Creates the 'Unhide file(s)' menu item."""
             item = Nautilus.MenuItem(name="NautilusHide::UnhideFile",
                                     label=n_("Un_hide File", "Un_hide Files", len(files)),
                                     tip=n_("Unhide this file", "Unhide these files", len(files)))
             item.connect("activate", self._unhide_run, files, hidden_path, hidden)
+=======
+        def _create_nautilus_item(self, file):
+            item = Nautilus.MenuItem(name="NautilusAdmin::nautilus",
+                                     label=_("Open as Admin"),
+                                     tip=_("Open this folder with root privileges"))
+            item.connect("activate", self._nautilus_run, file)
+            return item
+        
+        def _create_editor_item(self, file):
+            item = Nautilus.MenuItem(name="NautilusAdmin::editor",
+                                     label=_("Edit as Admin"),
+                                     tip=_("Edit this file with root privileges"))
+            item.connect("activate", self._editor_run, file)
+>>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide):extension/nautilus-admin.py
             return item
 
         def _update_hidden_file(self, hidden_path, hidden):
@@ -151,9 +167,9 @@ if using_nautilus_43_onwards:
                     pass
             self._update_hidden_file(hidden_path, hidden)
 else:
-    class NautilusHide(GObject.GObject, Nautilus.MenuProvider):
+    class NautilusAdmin(GObject.GObject, Nautilus.MenuProvider):
         def __init__(self):
-            print("Nautilus Hide extension initialized")
+            print("Nautilus Admin extension initialized")
             self.window = None
             self.is_selected = False
 
@@ -215,12 +231,27 @@ else:
 
             return items
 
+<<<<<<< HEAD:extension/nautilus-hide.py
         def _create_unhide_item(self, files, hidden_path, hidden):
             """Creates the 'Unhide file(s)' menu item."""
             item = Nautilus.MenuItem(name="NautilusHide::UnhideFile",
                                     label=n_("Un_hide File", "Un_hide Files", len(files)),
                                     tip=n_("Unhide this file", "Unhide these files", len(files)))
             item.connect("activate", self._unhide_run, files, hidden_path, hidden)
+=======
+        def _create_nautilus_item(self, file):
+            item = Nautilus.MenuItem(name="NautilusAdmin::nautilus",
+                                     label=_("Open as Admin"),
+                                     tip=_("Open this folder with root privileges"))
+            item.connect("activate", self._nautilus_run, file)
+            return item
+        
+        def _create_editor_item(self, file):
+            item = Nautilus.MenuItem(name="NautilusAdmin::editor",
+                                     label=_("Edit as Admin"),
+                                     tip=_("Edit this file with root privileges"))
+            item.connect("activate", self._editor_run, file)
+>>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide):extension/nautilus-admin.py
             return item
 
         def _update_hidden_file(self, hidden_path, hidden):
