@@ -18,21 +18,25 @@
 import os, subprocess
 
 from gi import require_version
-require_version('Gtk', '3.0')
-require_version('Nautilus', '3.0')
+#require_version('Gtk', '4.0')
+require_version('Nautilus', '4.0')
 
 from gi.repository import Nautilus, GObject
-from gettext import gettext, locale, bindtextdomain, textdomain
+
+import locale
+
 
 ROOT_UID = 0
 NAUTILUS_PATH="@NAUTILUS_PATH@"
 GEDIT_PATH="@GEDIT_PATH@"
 
+LOCALE_DIR = '@LOCALE_DIR@'
+
 class NautilusAdmin(Nautilus.MenuProvider, GObject.GObject):
 	"""Simple Nautilus extension that adds some administrative (root) actions to
 	the right-click menu, using GNOME's new admin backend."""
 	def __init__(self):
-		pass
+		print("Nautilus Admin extension initialized")
 
 	def get_file_items(self, window, files):
 		"""Returns the menu items to display when one or more files/folders are
@@ -76,12 +80,10 @@ class NautilusAdmin(Nautilus.MenuProvider, GObject.GObject):
 
 	def _setup_gettext(self):
 		"""Initializes gettext to localize strings."""
-		try: # prevent a possible exception
-			locale.setlocale(locale.LC_ALL, "")
-		except:
-			pass
-		bindtextdomain("nautilus-admin", "@CMAKE_INSTALL_PREFIX@/share/locale")
-		textdomain("nautilus-admin")
+		gettext.install('gradience', localedir)
+
+		locale.bindtextdomain('gradience', localedir)
+		locale.textdomain('gradience')
 
 	def _create_nautilus_item(self, file):
 		"""Creates the 'Open as Administrator' menu item."""
