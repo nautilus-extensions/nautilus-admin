@@ -1,3 +1,3 @@
 meson builddir --prefix=~/.local/share
-ninja -C builddir install
+ninja -C builddir
 nautilus -q

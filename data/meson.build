@@ -1,4 +1,4 @@
-install_data('nautilus-hide.appdata.xml', install_dir: join_paths(
+install_data('nautilus-admin.appdata.xml', install_dir: join_paths(
     get_option('datadir'), 
     'appdata')
 )
@@ -8,6 +8,6 @@ if appstream_util.found()
   test('Validate appstream file', appstream_util,
     args: ['validate', join_paths(
     get_option('datadir'), 
-    'appdata', 'nautlius-hide.appdata.xml')]
+    'appdata', 'nautlius-admin.appdata.xml')]
   )
 endif
