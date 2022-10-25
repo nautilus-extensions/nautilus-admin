@@ -1,6 +1,6 @@
-# Nautilus Admin - Extension for Nautilus to do administrative operations
-# Copyright (C) 2015-2017 Bruno Nova
-#               2016 frmdstryr <frmdstryr@gmail.com>
+# Nautilus Hide - Extension for Nautilus to hide files without renaming them
+# Copyright (C) 2015 Bruno Nova
+#               2016 Steeven Lopes <steevenlopes@outlook.com>
 #               2022 0xMRTT
 #
 # This program is free software: you can redistribute it and/or modify
@@ -38,21 +38,20 @@ import locale
 import gettext
 ROOT_UID = 0
 NAUTILUS_PATH="@NAUTILUS_PATH@"
-EDITOR_PATH="@EDITOR_PATH@"
 
 LOCALE_DIR = '@LOCALE_DIR@'
 
-gettext.install('nautilus-admin', LOCALE_DIR)
+gettext.install('nautilus-hide', LOCALE_DIR)
 
-locale.bindtextdomain('nautilus-admin', LOCALE_DIR)
-locale.textdomain('nautilus-admin')
+locale.bindtextdomain('nautilus-hide', LOCALE_DIR)
+locale.textdomain('nautilus-hide')
 
 _ = gettext.gettext
 
 if using_nautilus_43_onwards:
-    class NautilusAdmin(GObject.GObject, Nautilus.MenuProvider):
+    class NautilusHide(GObject.GObject, Nautilus.MenuProvider):
         def __init__(self):
-            print("Nautilus Admin extension initialized")
+            print("Nautilus Hide extension initialized")
             self.is_selected = False
 
         def get_file_items(self, files):
@@ -85,14 +84,14 @@ if using_nautilus_43_onwards:
             return items
 
         def _create_nautilus_item(self, file):
-            item = Nautilus.MenuItem(name="NautilusAdmin::nautilus",
+            item = Nautilus.MenuItem(name="NautilusHide::nautilus",
                                      label=_("Open as Admin"),
                                      tip=_("Open this folder with root privileges"))
             item.connect("activate", self._nautilus_run, file)
             return item
         
         def _create_editor_item(self, file):
-            item = Nautilus.MenuItem(name="NautilusAdmin::editor",
+            item = Nautilus.MenuItem(name="NautilusHide::editor",
                                      label=_("Edit as Admin"),
                                      tip=_("Edit this file with root privileges"))
             item.connect("activate", self._editor_run, file)
@@ -112,9 +111,9 @@ if using_nautilus_43_onwards:
             print("Openning: ",admin_uri)
             subprocess.Popen([EDITOR_PATH, admin_uri])
 else:
-    class NautilusAdmin(GObject.GObject, Nautilus.MenuProvider):
+    class NautilusHide(GObject.GObject, Nautilus.MenuProvider):
         def __init__(self):
-            print("Nautilus Admin extension initialized")
+            print("Nautilus Hide extension initialized")
             self.window = None
             self.is_selected = False
 
@@ -153,14 +152,14 @@ else:
             return items
 
         def _create_nautilus_item(self, file):
-            item = Nautilus.MenuItem(name="NautilusAdmin::nautilus",
+            item = Nautilus.MenuItem(name="NautilusHide::nautilus",
                                      label=_("Open as Admin"),
                                      tip=_("Open this folder with root privileges"))
             item.connect("activate", self._nautilus_run, file)
             return item
         
         def _create_editor_item(self, file):
-            item = Nautilus.MenuItem(name="NautilusAdmin::editor",
+            item = Nautilus.MenuItem(name="NautilusHide::editor",
                                      label=_("Edit as Admin"),
                                      tip=_("Edit this file with root privileges"))
             item.connect("activate", self._editor_run, file)

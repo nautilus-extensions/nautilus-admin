@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="addon">
+    <id>nautilus-hide</id>
+    <extends>org.gnome.Nautilus.desktop</extends>
+    <metadata_license>GPL-3.0+</metadata_license>
+    <project_license>GPL-3.0+</project_license>
+    <name>Nautilus Hide</name>
+    <summary>Extension for Nautilus to hide files without renaming them</summary>
+    <description>
+        <p>
+            Nautilus Hide is a simple Python extension for the Nautilus file
+            manager that hide files without renaming them
+        </p>
+    </description>
+    <url type="homepage">http://github.com/nautilus-hide/nautilus-hide/</url>
+    <url type="bugtracker">http://github.com/nautilus-hide/nautilus-hide/issues</url>
+    <developer_name>Nautilus Hide Contributor</developer_name>
+</component>
