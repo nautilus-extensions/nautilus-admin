@@ -26,7 +26,7 @@ dependency('pygobject-3.0', version: '>= 3.42.0')
 
 conf = configuration_data()
 conf.set('NAUTILUS_PATH', '/usr/bin/nautilus')
-conf.set('GEDIT_PATH', '/usr/bin/gedit')
+conf.set('EDITOR_PATH', '/usr/bin/gnome-text-editor')
 conf.set('LOCALE_DIR', join_paths(get_option('prefix'), get_option('localedir')))
 
 subdir('extension')

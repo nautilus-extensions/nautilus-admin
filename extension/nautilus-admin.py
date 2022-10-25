@@ -18,98 +18,164 @@
 import os, subprocess
 
 from gi import require_version
-#require_version('Gtk', '4.0')
+
+#try:
 require_version('Nautilus', '4.0')
+require_version('Gtk', '4.0')
+using_nautilus_43_onwards = True
+print('Using Nautilus 43 or newer')
+"""
+    require_version('Nautilus', '3.0')
+    require_version('Gtk', '3.0')
+    using_nautilus_43_onwards = False
+    print('Using Nautilus 42 or older')"""
 
 from gi.repository import Nautilus, GObject
 
 import locale
 
-
+import gettext
 ROOT_UID = 0
 NAUTILUS_PATH="@NAUTILUS_PATH@"
-GEDIT_PATH="@GEDIT_PATH@"
+EDITOR_PATH="@EDITOR_PATH@"
 
 LOCALE_DIR = '@LOCALE_DIR@'
 
-class NautilusAdmin(Nautilus.MenuProvider, GObject.GObject):
-	"""Simple Nautilus extension that adds some administrative (root) actions to
-	the right-click menu, using GNOME's new admin backend."""
-	def __init__(self):
-		print("Nautilus Admin extension initialized")
+gettext.install('nautilus-admin', LOCALE_DIR)
 
-	def get_file_items(self, window, files):
-		"""Returns the menu items to display when one or more files/folders are
-		selected."""
-		# Don't show when already running as root, or when more than 1 file is selected
-		if os.geteuid() == ROOT_UID or len(files) != 1:
-			return
-		file = files[0]
+locale.bindtextdomain('nautilus-admin', LOCALE_DIR)
+locale.textdomain('nautilus-admin')
 
-		# Add the menu items
-		items = []
-		self._setup_gettext();
-		self.window = window
-		if file.get_uri_scheme() == "file": # must be a local file/directory
-			if file.is_directory():
-				if os.path.exists(NAUTILUS_PATH):
-					items += [self._create_nautilus_item(file)]
-			else:
-				if os.path.exists(GEDIT_PATH):
-					items += [self._create_gedit_item(file)]
+_ = gettext.gettext
 
-		return items
+if using_nautilus_43_onwards:
+    class NautilusAdmin(GObject.GObject, Nautilus.MenuProvider):
+        def __init__(self):
+            print("Nautilus Admin extension initialized")
+            self.is_selected = False
 
-	def get_background_items(self, window, file):
-		"""Returns the menu items to display when no file/folder is selected
-		(i.e. when right-clicking the background)."""
-		# Don't show when already running as root
-		if os.geteuid() == ROOT_UID:
-			return
+        def get_file_items(self, files):
+            if len(files) != 1:
+                self.is_selected = False
+                return
 
-		# Add the menu items
-		items = []
-		self._setup_gettext();
-		self.window = window
-		if file.is_directory() and file.get_uri_scheme() == "file":
-			if os.path.exists(NAUTILUS_PATH):
-				items += [self._create_nautilus_item(file)]
-
-		return items
+            self.is_selected = True
+            file = files[0]
+            items = []
+            if file.get_uri_scheme() == "file": # must be a local file/directory
+                if file.is_directory():
+                    if os.path.exists(NAUTILUS_PATH):
+                        items += [self._create_nautilus_item(file)]
+                else:
+                    if os.path.exists(EDITOR_PATH):
+                        items += [self._create_editor_item(file)]
+            return items
 
 
-	def _setup_gettext(self):
-		"""Initializes gettext to localize strings."""
-		gettext.install('gradience', localedir)
+        def get_background_items(self, file):
+            # Add the menu items
+            items = []
 
-		locale.bindtextdomain('gradience', localedir)
-		locale.textdomain('gradience')
+            if self.is_selected:
+                return
 
-	def _create_nautilus_item(self, file):
-		"""Creates the 'Open as Administrator' menu item."""
-		item = Nautilus.MenuItem(name="NautilusAdmin::Nautilus",
-		                         label=gettext("Open as A_dministrator"),
-		                         tip=gettext("Open this folder with root privileges"))
-		item.connect("activate", self._nautilus_run, file)
-		return item
+            if file.is_directory() and file.get_uri_scheme() == "file":
+                items += [self._create_nautilus_item(file)]
+            return items
 
-	def _create_gedit_item(self, file):
-		"""Creates the 'Edit as Administrator' menu item."""
-		item = Nautilus.MenuItem(name="NautilusAdmin::Gedit",
-		                         label=gettext("Edit as A_dministrator"),
-		                         tip=gettext("Open this file in the text editor with root privileges"))
-		item.connect("activate", self._gedit_run, file)
-		return item
+        def _create_nautilus_item(self, file):
+            item = Nautilus.MenuItem(name="NautilusAdmin::nautilus",
+                                     label=_("Open as Admin"),
+                                     tip=_("Open this folder with root privileges"))
+            item.connect("activate", self._nautilus_run, file)
+            return item
+        
+        def _create_editor_item(self, file):
+            item = Nautilus.MenuItem(name="NautilusAdmin::editor",
+                                     label=_("Edit as Admin"),
+                                     tip=_("Edit this file with root privileges"))
+            item.connect("activate", self._editor_run, file)
+            return item
+
+        def _nautilus_run(self, menu, file):
+            uri = file.get_uri()
+            admin_uri = uri.replace("file://", "admin://")
+            
+            print("Openning: ",admin_uri)
+            subprocess.Popen([NAUTILUS_PATH, admin_uri])
+            
+        def _editor_run(self, menu, file):
+            uri = file.get_uri()
+            admin_uri = uri.replace("file://", "admin://")
+            
+            print("Openning: ",admin_uri)
+            subprocess.Popen([EDITOR_PATH, admin_uri])
+else:
+    class BlackBoxNautilus(GObject.GObject, Nautilus.MenuProvider):
+        def __init__(self):
+            print("Nautilus Admin extension initialized")
+            self.window = None
+            self.is_selected = False
+
+        def get_file_items(self, window, files):
+            """Return to menu when click on any file/folder"""
+            if len(files) != 1:
+                self.is_selected = False
+                return
+
+            self.is_selected = True
+            file = files[0]
+            items = []
+            self.window = window
+            if file.get_uri_scheme() == "file": # must be a local file/directory
+                if file.is_directory():
+                    if os.path.exists(NAUTILUS_PATH):
+                        items += [self._create_nautilus_item(file)]
+                else:
+                    if os.path.exists(EDITOR_PATH):
+                        items += [self._create_editor_item(file)]
+            return items
 
 
-	def _nautilus_run(self, menu, file):
-		"""'Open as Administrator' menu item callback."""
-		uri = file.get_uri()
-		admin_uri = uri.replace("file://", "admin://")
-		subprocess.Popen([NAUTILUS_PATH, admin_uri])
+        def get_background_items(self, window, file):
+            """Returns the menu items to display when no file/folder is selected
+            (i.e. when right-clicking the background)."""
+            # Add the menu items
+            items = []
+            self.window = window
 
-	def _gedit_run(self, menu, file):
-		"""'Edit as Administrator' menu item callback."""
-		uri = file.get_uri()
-		admin_uri = uri.replace("file://", "admin://")
-		subprocess.Popen([GEDIT_PATH, admin_uri])
+            if self.is_selected:
+                return
+
+            if file.is_directory() and file.get_uri_scheme() == "file":
+                items += [self._create_nautilus_item(file)]
+            return items
+
+        def _create_nautilus_item(self, file):
+            item = Nautilus.MenuItem(name="NautilusAdmin::nautilus",
+                                     label=_("Open as Admin"),
+                                     tip=_("Open this folder with root privileges"))
+            item.connect("activate", self._nautilus_run, file)
+            return item
+        
+        def _create_editor_item(self, file):
+            item = Nautilus.MenuItem(name="NautilusAdmin::editor",
+                                     label=_("Edit as Admin"),
+                                     tip=_("Edit this file with root privileges"))
+            item.connect("activate", self._editor_run, file)
+            return item
+
+        def _nautilus_run(self, menu, file):
+            uri = file.get_uri()
+            admin_uri = uri.replace("file://", "admin://")
+            
+            print("Openning: ",admin_uri)
+            subprocess.Popen([NAUTILUS_PATH, admin_uri])
+            
+        def _editor_run(self, menu, file):
+            uri = file.get_uri()
+            admin_uri = uri.replace("file://", "admin://")
+            
+            print("Openning: ",admin_uri)
+            subprocess.Popen([EDITOR_PATH, admin_uri])
+            
