@@ -21,10 +21,17 @@ import os, subprocess
 from gi import require_version
 
 try:
+<<<<<<< HEAD
     require_version('Nautilus', '4.0')
     require_version('Gtk', '4.0')
     using_nautilus_43_onwards = True
     print('Using Nautilus 43 or newer')
+=======
+	require_version('Nautilus', '4.0')
+	require_version('Gtk', '4.0')
+	using_nautilus_43_onwards = True
+	print('Using Nautilus 43 or newer')
+>>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide)
 except:
     require_version('Nautilus', '3.0')
     require_version('Gtk', '3.0')
@@ -48,7 +55,10 @@ locale.bindtextdomain('nautilus-admin', LOCALE_DIR)
 locale.textdomain('nautilus-admin')
 
 _ = gettext.gettext
+<<<<<<< HEAD
 n_ = gettext.ngettext
+=======
+>>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide)
 
 if using_nautilus_43_onwards:
     class NautilusAdmin(GObject.GObject, Nautilus.MenuProvider):
@@ -56,6 +66,7 @@ if using_nautilus_43_onwards:
             print("Nautilus Admin extension initialized")
             self.is_selected = False
 
+<<<<<<< HEAD
         def get_file_items(self, window, files):
             """Returns the menu items to display when one or more files/folders are
             selected."""
@@ -121,6 +132,37 @@ if using_nautilus_43_onwards:
                                     tip=n_("Unhide this file", "Unhide these files", len(files)))
             item.connect("activate", self._unhide_run, files, hidden_path, hidden)
 =======
+=======
+        def get_file_items(self, files):
+            if len(files) != 1:
+                self.is_selected = False
+                return
+
+            self.is_selected = True
+            file = files[0]
+            items = []
+            if file.get_uri_scheme() == "file": # must be a local file/directory
+                if file.is_directory():
+                    if os.path.exists(NAUTILUS_PATH):
+                        items += [self._create_nautilus_item(file)]
+                else:
+                    if os.path.exists(EDITOR_PATH):
+                        items += [self._create_editor_item(file)]
+            return items
+
+
+        def get_background_items(self, file):
+            # Add the menu items
+            items = []
+
+            if self.is_selected:
+                return
+
+            if file.is_directory() and file.get_uri_scheme() == "file":
+                items += [self._create_nautilus_item(file)]
+            return items
+
+>>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide)
         def _create_nautilus_item(self, file):
             item = Nautilus.MenuItem(name="NautilusAdmin::nautilus",
                                      label=_("Open as Admin"),
@@ -133,6 +175,7 @@ if using_nautilus_43_onwards:
                                      label=_("Edit as Admin"),
                                      tip=_("Edit this file with root privileges"))
             item.connect("activate", self._editor_run, file)
+<<<<<<< HEAD
 >>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide):extension/nautilus-admin.py
             return item
 
@@ -166,6 +209,23 @@ if using_nautilus_43_onwards:
                 except FileNotFoundError: # file not in "hidden"
                     pass
             self._update_hidden_file(hidden_path, hidden)
+=======
+            return item
+
+        def _nautilus_run(self, menu, file):
+            uri = file.get_uri()
+            admin_uri = uri.replace("file://", "admin://")
+            
+            print("Openning: ",admin_uri)
+            subprocess.Popen([NAUTILUS_PATH, admin_uri])
+            
+        def _editor_run(self, menu, file):
+            uri = file.get_uri()
+            admin_uri = uri.replace("file://", "admin://")
+            
+            print("Openning: ",admin_uri)
+            subprocess.Popen([EDITOR_PATH, admin_uri])
+>>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide)
 else:
     class NautilusAdmin(GObject.GObject, Nautilus.MenuProvider):
         def __init__(self):
@@ -174,6 +234,7 @@ else:
             self.is_selected = False
 
         def get_file_items(self, window, files):
+<<<<<<< HEAD
             """Returns the menu items to display when one or more files/folders are
             selected."""
             # Make "files" paths relative and remove files that start with '.'
@@ -239,6 +300,41 @@ else:
                                     tip=n_("Unhide this file", "Unhide these files", len(files)))
             item.connect("activate", self._unhide_run, files, hidden_path, hidden)
 =======
+=======
+            """Return to menu when click on any file/folder"""
+            if len(files) != 1:
+                self.is_selected = False
+                return
+
+            self.is_selected = True
+            file = files[0]
+            items = []
+            self.window = window
+            if file.get_uri_scheme() == "file": # must be a local file/directory
+                if file.is_directory():
+                    if os.path.exists(NAUTILUS_PATH):
+                        items += [self._create_nautilus_item(file)]
+                else:
+                    if os.path.exists(EDITOR_PATH):
+                        items += [self._create_editor_item(file)]
+            return items
+
+
+        def get_background_items(self, window, file):
+            """Returns the menu items to display when no file/folder is selected
+            (i.e. when right-clicking the background)."""
+            # Add the menu items
+            items = []
+            self.window = window
+
+            if self.is_selected:
+                return
+
+            if file.is_directory() and file.get_uri_scheme() == "file":
+                items += [self._create_nautilus_item(file)]
+            return items
+
+>>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide)
         def _create_nautilus_item(self, file):
             item = Nautilus.MenuItem(name="NautilusAdmin::nautilus",
                                      label=_("Open as Admin"),
@@ -251,6 +347,7 @@ else:
                                      label=_("Edit as Admin"),
                                      tip=_("Edit this file with root privileges"))
             item.connect("activate", self._editor_run, file)
+<<<<<<< HEAD
 >>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide):extension/nautilus-admin.py
             return item
 
@@ -284,4 +381,21 @@ else:
                 except FileNotFoundError: # file not in "hidden"
                     pass
             self._update_hidden_file(hidden_path, hidden)
+=======
+            return item
+
+        def _nautilus_run(self, menu, file):
+            uri = file.get_uri()
+            admin_uri = uri.replace("file://", "admin://")
+            
+            print("Openning: ",admin_uri)
+            subprocess.Popen([NAUTILUS_PATH, admin_uri])
+            
+        def _editor_run(self, menu, file):
+            uri = file.get_uri()
+            admin_uri = uri.replace("file://", "admin://")
+            
+            print("Openning: ",admin_uri)
+            subprocess.Popen([EDITOR_PATH, admin_uri])
+>>>>>>> parent of f1a9638 (feat: rename from nautilus-admin to nautilus-hide)
             
