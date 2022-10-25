@@ -11,12 +11,6 @@ gnome = import('gnome')
 i18n = import('i18n')
 python = import('python')
 
-# Project information
-PROJECT_URL = 'https://github.com/naut/Gradience'
-BUGTRACKER_URL = 'https://github.com/GradienceTeam/Gradience/issues'
-HELP_URL = 'https://github.com/GradienceTeam/Gradience/discussions'
-TRANSLATE_URL = 'https://hosted.weblate.org/projects/GradienceTeam/gradience'
-
 EXTENSION_DIR = join_paths(get_option('prefix'), 'nautilus-python/extensions')
 
 # Dependencies
