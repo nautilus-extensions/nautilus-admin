@@ -8,26 +8,29 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-25 15:21+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-10-26 12:50+0000\n"
+"Last-Translator: Atrophaneura <Atrophaneura@proton.me>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/nautilus-admin/"
+"nautilus-admin/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 
 #: extension/nautilus-admin.py:88 extension/nautilus-admin.py:156
 msgid "Open as Admin"
-msgstr ""
+msgstr "Als Admin öffnen"
 
 #: extension/nautilus-admin.py:89 extension/nautilus-admin.py:157
 msgid "Open this folder with root privileges"
-msgstr ""
+msgstr "Öffnen Sie diesen Ordner mit Root-Rechten"
 
 #: extension/nautilus-admin.py:95 extension/nautilus-admin.py:163
 msgid "Edit as Admin"
-msgstr ""
+msgstr "Als Administrator bearbeiten"
 
 #: extension/nautilus-admin.py:96 extension/nautilus-admin.py:164
 msgid "Edit this file with root privileges"
-msgstr ""
+msgstr "Bearbeiten Sie diese Datei mit Root-Rechten"
