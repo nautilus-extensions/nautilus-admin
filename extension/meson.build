@@ -1,6 +1,6 @@
 configure_file(
-  input: 'nautilus-admin.py',
-  output: 'nautilus-admin.py',
+  input: 'nautilus-hide.py',
+  output: 'nautilus-hide.py',
   configuration: conf,
   install: true,
   install_dir: EXTENSION_DIR,
