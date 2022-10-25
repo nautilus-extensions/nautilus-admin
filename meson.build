@@ -17,7 +17,8 @@ BUGTRACKER_URL = 'https://github.com/GradienceTeam/Gradience/issues'
 HELP_URL = 'https://github.com/GradienceTeam/Gradience/discussions'
 TRANSLATE_URL = 'https://hosted.weblate.org/projects/GradienceTeam/gradience'
 
-EXTENSION_DIR = '/usr/share/nautilus-python/extensions'
+EXTENSION_DIR = join_paths(get_option('prefix'), 'nautilus-python/extensions')
+
 # Dependencies
 dependency('glib-2.0')
 dependency('gtk4', version: '>= 4.5.0')
@@ -31,3 +32,4 @@ conf.set('LOCALE_DIR', join_paths(get_option('prefix'), get_option('localedir'))
 
 subdir('extension')
 subdir('po')
+subdir('data')

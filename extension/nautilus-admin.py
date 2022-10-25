@@ -1,6 +1,7 @@
 # Nautilus Admin - Extension for Nautilus to do administrative operations
 # Copyright (C) 2015-2017 Bruno Nova
 #               2016 frmdstryr <frmdstryr@gmail.com>
+#               2022 0xMRTT
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
