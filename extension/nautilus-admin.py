@@ -19,16 +19,16 @@ import os, subprocess
 
 from gi import require_version
 
-#try:
-require_version('Nautilus', '4.0')
-require_version('Gtk', '4.0')
-using_nautilus_43_onwards = True
-print('Using Nautilus 43 or newer')
-"""
+try:
+	require_version('Nautilus', '4.0')
+	require_version('Gtk', '4.0')
+	using_nautilus_43_onwards = True
+	print('Using Nautilus 43 or newer')
+except:
     require_version('Nautilus', '3.0')
     require_version('Gtk', '3.0')
     using_nautilus_43_onwards = False
-    print('Using Nautilus 42 or older')"""
+    print('Using Nautilus 42 or older')
 
 from gi.repository import Nautilus, GObject
 
@@ -111,7 +111,7 @@ if using_nautilus_43_onwards:
             print("Openning: ",admin_uri)
             subprocess.Popen([EDITOR_PATH, admin_uri])
 else:
-    class BlackBoxNautilus(GObject.GObject, Nautilus.MenuProvider):
+    class NautilusAdmin(GObject.GObject, Nautilus.MenuProvider):
         def __init__(self):
             print("Nautilus Admin extension initialized")
             self.window = None
