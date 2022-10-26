@@ -23,7 +23,7 @@
             </li>
         </ul>
     </description>
-    <url type="homepage">http://github.com/nautilus-admin/nautilus-admin/</url>
-    <url type="bugtracker">http://github.com/nautilus-admin/nautilus-admin/issues</url>
+    <url type="homepage">http://github.com/nautilus-extensions/nautilus-admin/</url>
+    <url type="bugtracker">http://github.com/nautilus-extensions/nautilus-admin/issues</url>
     <developer_name>Nautilus Admin Contributor</developer_name>
 </component>
