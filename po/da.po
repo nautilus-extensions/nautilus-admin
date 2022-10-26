@@ -1,0 +1,33 @@
+# Nautilus Admin POT file
+# Copyright (C) 2022 Nautilus Admin Team
+# This file is distributed under the GNU GPLv3 license.
+# Nautilus Admin Team, 2022.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-25 15:21+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: extension/nautilus-admin.py:88 extension/nautilus-admin.py:156
+msgid "Open as Admin"
+msgstr ""
+
+#: extension/nautilus-admin.py:89 extension/nautilus-admin.py:157
+msgid "Open this folder with root privileges"
+msgstr ""
+
+#: extension/nautilus-admin.py:95 extension/nautilus-admin.py:163
+msgid "Edit as Admin"
+msgstr ""
+
+#: extension/nautilus-admin.py:96 extension/nautilus-admin.py:164
+msgid "Edit this file with root privileges"
+msgstr ""
