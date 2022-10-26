@@ -15,8 +15,8 @@
   <a href="https://hosted.weblate.org/engage/nautilus-admin">
     <img alt="Translation status" src="https://hosted.weblate.org/widgets/nautilus-admin/-/svg-badge.svg"/>
   </a>
-  <a href="https://github.com/nautilus-admin/nautilus-admin/actions/workflows/ci.yml">
-    <img alt="CI status" src="https://github.com/nautilus-admin/nautilus-admin/actions/workflows/ci.yml/badge.svg"/>
+  <a href="https://github.com/nautilus-extensions/nautilus-admin/actions/workflows/ci.yml">
+    <img alt="CI status" src="https://github.com/nautilus-extensions/nautilus-admin/actions/workflows/ci.yml/badge.svg"/>
   </a>
   <a href="https://repology.org/project/nautilus-admin/versions">
     <img alt="Packaging status" src="https://repology.org/badge/tiny-repos/nautilus-admin.svg">
@@ -112,7 +112,7 @@ The following packages are required to build nautilus-admin:
 ##### Global installation
 
 ```shell
-git clone https://github.com/nautilus-admin/nautilus-admin.git
+git clone https://github.com/nautilus-extensions/nautilus-admin.git
 cd nautilus-admin
 meson builddir --prefix=/usr/local
 sudo ninja -C builddir install
@@ -121,7 +121,7 @@ sudo ninja -C builddir install
 ##### Local build (for testing and development purposes)
 
 ```shell
-git clone https://github.com/nautilus-admin/nautilus-admin.git
+git clone https://github.com/nautilus-extensions/nautilus-admin.git
 cd nautilus-admin
 ./install.sh
 ```
@@ -145,7 +145,7 @@ or think you can improve a translation, you can use the [Weblate](https://hosted
 
 ## ✨️ Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=nautilus-admin/nautilus-admin)](https://github.com/nautilus-admin/nautilus-admin/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=nautilus-admin/nautilus-admin)](https://github.com/nautilus-extensions/nautilus-admin/graphs/contributors)
 
 
 ## 💝 Acknowledgment
